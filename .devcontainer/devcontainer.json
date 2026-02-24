@@ -7,6 +7,6 @@
       "webPort": "6080"
     },
     "ghcr.io/devcontainers/features/ruby:1": {},
-    "git-lfs": "latest"
+    "ghcr.io/devcontainers/features/git-lfs:1": {}
   }
 }

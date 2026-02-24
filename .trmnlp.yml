@@ -6,9 +6,12 @@ watch:
   - .trmnlp.yml
   - src
 
+time_zone: Australia/Brisbane
+
 # values of custom fields (defined in src/settings.yml)
-custom_fields: {}
+custom_fields: { "period": "work_day" }
 
 # override variables
 variables:
   trmnl: {}
+  testing_date_time: "2026-02-24T14:25:39"

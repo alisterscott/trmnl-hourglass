@@ -1,1 +1,5 @@
-
+{% if testing_date_time and testing_date_time != '' %}
+    {%- assign todays_date_time = testing_date_time -%}
+{% else %}
+    {%- assign todays_date_time = trmnl.system.timestamp_utc | date: "%s" | plus: trmnl.user.utc_offset | date: "%Y-%m-%dT%H:%M:%S"  -%}
+{% endif %}
