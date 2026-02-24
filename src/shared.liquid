@@ -3,3 +3,12 @@
 {% else %}
     {%- assign todays_date_time = trmnl.system.timestamp_utc | date: "%s" | plus: trmnl.user.utc_offset | date: "%Y-%m-%dT%H:%M:%S"  -%}
 {% endif %}
+{%- assign _hours = todays_date_time | date: "%H" | plus: 0 -%}
+{%- assign _minutes = todays_date_time | date: "%M" | plus: 0 -%}
+{%- assign _seconds = todays_date_time | date: "%S" | plus: 0 -%}
+{%- assign _hours_s = _hours | times: 3600 -%}
+{%- assign _minutes_s = _minutes | times: 60 -%}
+{%- assign _seconds_elapsed = _hours_s | plus: _minutes_s | plus: _seconds -%}
+{%- assign _seconds_remaining = 86400 | minus: _seconds_elapsed -%}
+{%- assign proportion_remaining = _seconds_remaining | divided_by: 86400.0 -%}
+{%- assign proportion_elapsed = 1.0 | minus: proportion_remaining -%}
