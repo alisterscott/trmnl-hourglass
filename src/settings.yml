@@ -1,23 +1,23 @@
 ---
 strategy: static
-no_screen_padding: "no"
-dark_mode: "no"
-static_data:
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: 
 polling_verb: get
-polling_url: ""
-polling_headers: ""
-polling_body: ""
+polling_url: ''
+polling_headers: ''
+polling_body: ''
 id: 249658
 custom_fields:
-  - keyname: period
-    field_type: select
-    options:
-      - Day
-      - Week
-      - Month
-      - Year
-    default: day
-    name: Period of Time
-    description: Current period of time to use for hourglass
+- keyname: period
+  field_type: select
+  options:
+  - Day
+  - Week
+  - Month
+  - Year
+  default: day
+  name: Period of Time
+  description: Current period of time to use for hourglass
 name: Hourglass
 refresh_interval: 30
