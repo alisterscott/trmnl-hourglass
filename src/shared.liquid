@@ -3,7 +3,7 @@
 {% else %}
     {%- assign todays_date_time = trmnl.system.timestamp_utc | date: "%s" | plus: trmnl.user.utc_offset | date: "%Y-%m-%dT%H:%M:%S"  -%}
 {% endif %}
-{% assign label = "Today" %}
+{%- assign label = "Today" -%}
 {%- assign _hours = todays_date_time | date: "%H" | plus: 0 -%}
 {%- assign _minutes = todays_date_time | date: "%M" | plus: 0 -%}
 {%- assign _seconds = todays_date_time | date: "%S" | plus: 0 -%}
@@ -13,3 +13,73 @@
 {%- assign _seconds_remaining = 86400 | minus: _seconds_elapsed -%}
 {%- assign proportion_remaining = _seconds_remaining | divided_by: 86400.0 -%}
 {%- assign proportion_elapsed = 1.0 | minus: proportion_remaining -%}
+{%- comment -%}
+  Both bulbs share the same geometry. The top sand height (h) from the pinch
+  equals the empty gap height from the pinch downward into the bottom bulb.
+  Therefore both sand surfaces always share the same xl/xr x-coordinates.
+  h is the area-proportional height from the quadratic formula:
+    10h + 130h²/185 = proportion_remaining × 25900
+{%- endcomment -%}
+{%- assign _top_key = proportion_remaining | times: 24 | round -%}
+{%- assign _top_h = 0 -%}
+{%- if    _top_key == 0  %}{%- assign _top_h = 0   -%}
+{%- elsif _top_key == 1  %}{%- assign _top_h = 33  -%}
+{%- elsif _top_key == 2  %}{%- assign _top_h = 49  -%}
+{%- elsif _top_key == 3  %}{%- assign _top_h = 61  -%}
+{%- elsif _top_key == 4  %}{%- assign _top_h = 72  -%}
+{%- elsif _top_key == 5  %}{%- assign _top_h = 81  -%}
+{%- elsif _top_key == 6  %}{%- assign _top_h = 89  -%}
+{%- elsif _top_key == 7  %}{%- assign _top_h = 97  -%}
+{%- elsif _top_key == 8  %}{%- assign _top_h = 104 -%}
+{%- elsif _top_key == 9  %}{%- assign _top_h = 111 -%}
+{%- elsif _top_key == 10 %}{%- assign _top_h = 117 -%}
+{%- elsif _top_key == 11 %}{%- assign _top_h = 123 -%}
+{%- elsif _top_key == 12 %}{%- assign _top_h = 129 -%}
+{%- elsif _top_key == 13 %}{%- assign _top_h = 134 -%}
+{%- elsif _top_key == 14 %}{%- assign _top_h = 140 -%}
+{%- elsif _top_key == 15 %}{%- assign _top_h = 145 -%}
+{%- elsif _top_key == 16 %}{%- assign _top_h = 150 -%}
+{%- elsif _top_key == 17 %}{%- assign _top_h = 155 -%}
+{%- elsif _top_key == 18 %}{%- assign _top_h = 159 -%}
+{%- elsif _top_key == 19 %}{%- assign _top_h = 164 -%}
+{%- elsif _top_key == 20 %}{%- assign _top_h = 168 -%}
+{%- elsif _top_key == 21 %}{%- assign _top_h = 173 -%}
+{%- elsif _top_key == 22 %}{%- assign _top_h = 177 -%}
+{%- elsif _top_key == 23 %}{%- assign _top_h = 181 -%}
+{%- elsif _top_key == 24 %}{%- assign _top_h = 185 -%}
+{%- endif -%}
+{%- assign _hw_n = _top_h | times: 130 | plus: 925 -%}
+{%- assign _hw   = _hw_n | divided_by: 185 -%}
+{%- assign _top_sand_y  = 210 | minus: _top_h -%}
+{%- assign _top_sand_xl = 150 | minus: _hw -%}
+{%- assign _top_sand_xr = 150 | plus:  _hw -%}
+{%- assign _bot_sand_y  = 210 | plus:  _top_h -%}
+
+{%- capture hourglass_html -%}
+<div class="layout">
+  <div style="display:flex;justify-content:center;align-items:center;width:100%;height:100%;">
+    <svg width="100%" height="100%" viewBox="0 0 300 430" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+      <!-- Glass fill (white background for upper and lower bulbs) -->
+      <polygon points="15,25 285,25 155,210 145,210" fill="white"/>
+      <polygon points="145,210 155,210 285,395 15,395" fill="white"/>
+      <!-- Top sand: fills from pinch upward, area-proportional to proportion_remaining -->
+      <polygon points="{{ _top_sand_xl }},{{ _top_sand_y }} {{ _top_sand_xr }},{{ _top_sand_y }} 155,210 145,210" fill="black"/>
+      <!-- Falling sand stream: thin line from pinch to top of bottom sand, only while sand remains -->
+      {%- if _top_key > 0 %}
+      <rect x="148" y="210" width="3" height="{{ _top_h }}" fill="black"/>
+      {%- endif %}
+      <!-- Bottom sand: fills from base upward, area-proportional to proportion_elapsed -->
+      <polygon points="{{ _top_sand_xl }},{{ _bot_sand_y }} {{ _top_sand_xr }},{{ _bot_sand_y }} 285,395 15,395" fill="black"/>
+      <!-- Glass outline (drawn on top so borders stay crisp) -->
+      <polygon points="15,25 285,25 155,210 145,210" fill="none" stroke="black" stroke-width="4"/>
+      <polygon points="145,210 155,210 285,395 15,395" fill="none" stroke="black" stroke-width="4"/>
+      <!-- Top cap -->
+      <rect x="8" y="5" width="284" height="33" fill="black" rx="6"/>
+      <text x="150" y="27" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="white" letter-spacing="2">{{ label }}</text>
+      <!-- Bottom cap -->
+      <rect x="8" y="393" width="284" height="33" fill="black" rx="6"/>
+      <line x1="8" y1="393" x2="292" y2="393" stroke="white" stroke-width="2"/>
+    </svg>
+  </div>
+</div>
+{%- endcapture -%}
