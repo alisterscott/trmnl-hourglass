@@ -5,29 +5,33 @@
   h is the area-proportional height from the quadratic formula:
     10h + 130h²/185 = proportion_remaining × 25900
 {%- endcomment -%}
-{%- assign _top_key = proportion_remaining | times: 20 | round -%}
+{%- assign _top_key = proportion_remaining | times: 24 | round -%}
 {%- assign _top_h = 0 -%}
 {%- if    _top_key == 0  %}{%- assign _top_h = 0   -%}
-{%- elsif _top_key == 1  %}{%- assign _top_h = 36  -%}
-{%- elsif _top_key == 2  %}{%- assign _top_h = 54  -%}
-{%- elsif _top_key == 3  %}{%- assign _top_h = 68  -%}
-{%- elsif _top_key == 4  %}{%- assign _top_h = 79  -%}
-{%- elsif _top_key == 5  %}{%- assign _top_h = 89  -%}
-{%- elsif _top_key == 6  %}{%- assign _top_h = 99  -%}
-{%- elsif _top_key == 7  %}{%- assign _top_h = 107 -%}
-{%- elsif _top_key == 8  %}{%- assign _top_h = 115 -%}
-{%- elsif _top_key == 9  %}{%- assign _top_h = 122 -%}
-{%- elsif _top_key == 10 %}{%- assign _top_h = 129 -%}
-{%- elsif _top_key == 11 %}{%- assign _top_h = 135 -%}
-{%- elsif _top_key == 12 %}{%- assign _top_h = 141 -%}
-{%- elsif _top_key == 13 %}{%- assign _top_h = 147 -%}
-{%- elsif _top_key == 14 %}{%- assign _top_h = 153 -%}
-{%- elsif _top_key == 15 %}{%- assign _top_h = 158 -%}
-{%- elsif _top_key == 16 %}{%- assign _top_h = 163 -%}
-{%- elsif _top_key == 17 %}{%- assign _top_h = 168 -%}
-{%- elsif _top_key == 18 %}{%- assign _top_h = 173 -%}
-{%- elsif _top_key == 19 %}{%- assign _top_h = 178 -%}
-{%- elsif _top_key == 20 %}{%- assign _top_h = 185 -%}
+{%- elsif _top_key == 1  %}{%- assign _top_h = 33  -%}
+{%- elsif _top_key == 2  %}{%- assign _top_h = 49  -%}
+{%- elsif _top_key == 3  %}{%- assign _top_h = 61  -%}
+{%- elsif _top_key == 4  %}{%- assign _top_h = 72  -%}
+{%- elsif _top_key == 5  %}{%- assign _top_h = 81  -%}
+{%- elsif _top_key == 6  %}{%- assign _top_h = 89  -%}
+{%- elsif _top_key == 7  %}{%- assign _top_h = 97  -%}
+{%- elsif _top_key == 8  %}{%- assign _top_h = 104 -%}
+{%- elsif _top_key == 9  %}{%- assign _top_h = 111 -%}
+{%- elsif _top_key == 10 %}{%- assign _top_h = 117 -%}
+{%- elsif _top_key == 11 %}{%- assign _top_h = 123 -%}
+{%- elsif _top_key == 12 %}{%- assign _top_h = 129 -%}
+{%- elsif _top_key == 13 %}{%- assign _top_h = 134 -%}
+{%- elsif _top_key == 14 %}{%- assign _top_h = 140 -%}
+{%- elsif _top_key == 15 %}{%- assign _top_h = 145 -%}
+{%- elsif _top_key == 16 %}{%- assign _top_h = 150 -%}
+{%- elsif _top_key == 17 %}{%- assign _top_h = 155 -%}
+{%- elsif _top_key == 18 %}{%- assign _top_h = 159 -%}
+{%- elsif _top_key == 19 %}{%- assign _top_h = 164 -%}
+{%- elsif _top_key == 20 %}{%- assign _top_h = 168 -%}
+{%- elsif _top_key == 21 %}{%- assign _top_h = 173 -%}
+{%- elsif _top_key == 22 %}{%- assign _top_h = 177 -%}
+{%- elsif _top_key == 23 %}{%- assign _top_h = 181 -%}
+{%- elsif _top_key == 24 %}{%- assign _top_h = 185 -%}
 {%- endif -%}
 {%- assign _hw_n = _top_h | times: 130 | plus: 925 -%}
 {%- assign _hw   = _hw_n | divided_by: 185 -%}
