@@ -13,6 +13,7 @@ custom_fields:
     field_type: select
     options:
       - Day
+      - Week
       - Month
       - Year
     default: day

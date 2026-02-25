@@ -21,6 +21,28 @@
   {%- assign _seconds_remaining = 604800 | minus: _seconds_since_week_start -%}
   {%- assign proportion_remaining = _seconds_remaining | divided_by: 604800.0 -%}
   {%- assign proportion_elapsed = 1.0 | minus: proportion_remaining -%}
+{% elsif trmnl.plugin_settings.custom_fields_values.period == 'month' %}
+  {%- assign label = "This Month" -%}
+  {%- assign day_of_month = todays_date_time | date: "%d" | plus: 0 -%}
+  {%- assign _month_start_str = todays_date_time | date: "%Y-%m-01" -%}
+  {%- assign _month_start_s = _month_start_str | date: "%s" | plus: 0 -%}
+  {%- assign _next_month_s = _month_start_s | plus: 2678400 -%}
+  {%- assign _next_month_str = _next_month_s | date: "%Y-%m-01" -%}
+  {%- assign _next_month_start_s = _next_month_str | date: "%s" | plus: 0 -%}
+  {%- assign _last_day_s = _next_month_start_s | minus: 86400 -%}
+  {%- assign days_in_month = _last_day_s | date: "%-d" | plus: 0 -%}
+  {%- assign days_since_month_start = day_of_month | minus: 1 -%}
+  {%- assign _hours = todays_date_time | date: "%H" | plus: 0 -%}
+  {%- assign _minutes = todays_date_time | date: "%M" | plus: 0 -%}
+  {%- assign _seconds = todays_date_time | date: "%S" | plus: 0 -%}
+  {%- assign _hours_s = _hours | times: 3600 -%}
+  {%- assign _minutes_s = _minutes | times: 60 -%}
+  {%- assign _seconds_today = _hours_s | plus: _minutes_s | plus: _seconds -%}
+  {%- assign _seconds_since_month_start = days_since_month_start | times: 86400 | plus: _seconds_today -%}
+  {%- assign _seconds_remaining = days_in_month | times: 86400 | minus: _seconds_since_month_start -%}
+  {%- assign _total_seconds_in_month = days_in_month | times: 86400.0 -%}
+  {%- assign proportion_remaining = _seconds_remaining | divided_by: _total_seconds_in_month -%}
+  {%- assign proportion_elapsed = 1.0 | minus: proportion_remaining -%}
 {% else %}
   {%- assign label = "Today" -%}
   {%- assign _hours = todays_date_time | date: "%H" | plus: 0 -%}
@@ -33,6 +55,10 @@
   {%- assign proportion_remaining = _seconds_remaining | divided_by: 86400.0 -%}
   {%- assign proportion_elapsed = 1.0 | minus: proportion_remaining -%}
 {%- endif -%}
+{% comment %} {{ day_of_month }}
+{{ days_in_month }}
+{{ proportion_elapsed }}
+{{ proportion_remaining }} {% endcomment %}
 {%- comment -%}
   Both bulbs share the same geometry. The top sand height (h) from the pinch
   equals the empty gap height from the pinch downward into the bottom bulb.
