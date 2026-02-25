@@ -1,18 +1,38 @@
+{% assign day_start_of_week = 1 %}
 {% if testing_date_time and testing_date_time != '' %}
     {%- assign todays_date_time = testing_date_time -%}
 {% else %}
     {%- assign todays_date_time = trmnl.system.timestamp_utc | date: "%s" | plus: trmnl.user.utc_offset | date: "%Y-%m-%dT%H:%M:%S"  -%}
 {% endif %}
-{%- assign label = "Today" -%}
-{%- assign _hours = todays_date_time | date: "%H" | plus: 0 -%}
-{%- assign _minutes = todays_date_time | date: "%M" | plus: 0 -%}
-{%- assign _seconds = todays_date_time | date: "%S" | plus: 0 -%}
-{%- assign _hours_s = _hours | times: 3600 -%}
-{%- assign _minutes_s = _minutes | times: 60 -%}
-{%- assign _seconds_elapsed = _hours_s | plus: _minutes_s | plus: _seconds -%}
-{%- assign _seconds_remaining = 86400 | minus: _seconds_elapsed -%}
-{%- assign proportion_remaining = _seconds_remaining | divided_by: 86400.0 -%}
-{%- assign proportion_elapsed = 1.0 | minus: proportion_remaining -%}
+{% if trmnl.plugin_settings.custom_fields_values.period == 'week' %}
+  {%- assign label = "This Week" -%}
+  {%- assign day_of_week = todays_date_time | date: "%u" | plus: 0 -%}
+  {%- assign days_since_week_start = day_of_week | minus: day_start_of_week -%}
+  {%- if days_since_week_start < 0 -%}
+    {%- assign days_since_week_start = days_since_week_start | plus: 7 -%}
+  {%- endif -%}
+  {%- assign _hours = todays_date_time | date: "%H" | plus: 0 -%}
+  {%- assign _minutes = todays_date_time | date: "%M" | plus: 0 -%}
+  {%- assign _seconds = todays_date_time | date: "%S" | plus: 0 -%}
+  {%- assign _hours_s = _hours | times: 3600 -%}
+  {%- assign _minutes_s = _minutes | times: 60 -%}
+  {%- assign _seconds_today = _hours_s | plus: _minutes_s | plus: _seconds -%}
+  {%- assign _seconds_since_week_start = days_since_week_start | times: 86400 | plus: _seconds_today -%}
+  {%- assign _seconds_remaining = 604800 | minus: _seconds_since_week_start -%}
+  {%- assign proportion_remaining = _seconds_remaining | divided_by: 604800.0 -%}
+  {%- assign proportion_elapsed = 1.0 | minus: proportion_remaining -%}
+{% else %}
+  {%- assign label = "Today" -%}
+  {%- assign _hours = todays_date_time | date: "%H" | plus: 0 -%}
+  {%- assign _minutes = todays_date_time | date: "%M" | plus: 0 -%}
+  {%- assign _seconds = todays_date_time | date: "%S" | plus: 0 -%}
+  {%- assign _hours_s = _hours | times: 3600 -%}
+  {%- assign _minutes_s = _minutes | times: 60 -%}
+  {%- assign _seconds_elapsed = _hours_s | plus: _minutes_s | plus: _seconds -%}
+  {%- assign _seconds_remaining = 86400 | minus: _seconds_elapsed -%}
+  {%- assign proportion_remaining = _seconds_remaining | divided_by: 86400.0 -%}
+  {%- assign proportion_elapsed = 1.0 | minus: proportion_remaining -%}
+{%- endif -%}
 {%- comment -%}
   Both bulbs share the same geometry. The top sand height (h) from the pinch
   equals the empty gap height from the pinch downward into the bottom bulb.

@@ -9,9 +9,9 @@ watch:
 time_zone: Australia/Brisbane
 
 # values of custom fields (defined in src/settings.yml)
-custom_fields: { "period": "work_day" }
+custom_fields: { "period": "week" }
 
 # override variables
 variables:
   trmnl: {}
-  testing_date_time: "2026-02-24T01:00:00"
+  testing_date_time: "2026-02-25T12:00:00"

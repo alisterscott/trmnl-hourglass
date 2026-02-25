@@ -12,11 +12,11 @@ custom_fields:
   - keyname: period
     field_type: select
     options:
-      - Hour
       - Day
-      - Work Day
-    default: work_day
+      - Month
+      - Year
+    default: day
     name: Period of Time
-    description: Period of time to use for hourglass
+    description: Current period of time to use for hourglass
 name: Hourglass
 refresh_interval: 30
