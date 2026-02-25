@@ -3,6 +3,7 @@
 {% else %}
     {%- assign todays_date_time = trmnl.system.timestamp_utc | date: "%s" | plus: trmnl.user.utc_offset | date: "%Y-%m-%dT%H:%M:%S"  -%}
 {% endif %}
+{% assign label = "Today" %}
 {%- assign _hours = todays_date_time | date: "%H" | plus: 0 -%}
 {%- assign _minutes = todays_date_time | date: "%M" | plus: 0 -%}
 {%- assign _seconds = todays_date_time | date: "%S" | plus: 0 -%}
