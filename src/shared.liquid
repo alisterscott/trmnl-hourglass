@@ -43,6 +43,28 @@
   {%- assign _total_seconds_in_month = days_in_month | times: 86400.0 -%}
   {%- assign proportion_remaining = _seconds_remaining | divided_by: _total_seconds_in_month -%}
   {%- assign proportion_elapsed = 1.0 | minus: proportion_remaining -%}
+{% elsif trmnl.plugin_settings.custom_fields_values.period == 'year' %}
+  {%- assign label = "This Year" -%}
+  {%- assign day_of_year = todays_date_time | date: "%j" | plus: 0 -%}
+  {%- assign year_start_str = todays_date_time | date: "%Y-01-01" -%}
+  {%- assign year_start_s = year_start_str | date: "%s" | plus: 0 -%}
+  {%- assign next_year_s = year_start_s | plus: 31622400 -%}
+  {%- assign next_year_str = next_year_s | date: "%Y-01-01" -%}
+  {%- assign next_year_start_s = next_year_str | date: "%s" | plus: 0 -%}
+  {%- assign last_day_s = next_year_start_s | minus: 86400 -%}
+  {%- assign days_in_year = last_day_s | date: "%j" | plus: 0 -%}
+  {%- assign days_since_year_start = day_of_year | minus: 1 -%}
+  {%- assign _hours = todays_date_time | date: "%H" | plus: 0 -%}
+  {%- assign _minutes = todays_date_time | date: "%M" | plus: 0 -%}
+  {%- assign _seconds = todays_date_time | date: "%S" | plus: 0 -%}
+  {%- assign _hours_s = _hours | times: 3600 -%}
+  {%- assign _minutes_s = _minutes | times: 60 -%}
+  {%- assign _seconds_today = _hours_s | plus: _minutes_s | plus: _seconds -%}
+  {%- assign _seconds_since_year_start = days_since_year_start | times: 86400 | plus: _seconds_today -%}
+  {%- assign _seconds_remaining = days_in_year | times: 86400 | minus: _seconds_since_year_start -%}
+  {%- assign _total_seconds_in_year = days_in_year | times: 86400.0 -%}
+  {%- assign proportion_remaining = _seconds_remaining | divided_by: _total_seconds_in_year -%}
+  {%- assign proportion_elapsed = 1.0 | minus: proportion_remaining -%}
 {% else %}
   {%- assign label = "Today" -%}
   {%- assign _hours = todays_date_time | date: "%H" | plus: 0 -%}
@@ -55,8 +77,8 @@
   {%- assign proportion_remaining = _seconds_remaining | divided_by: 86400.0 -%}
   {%- assign proportion_elapsed = 1.0 | minus: proportion_remaining -%}
 {%- endif -%}
-{% comment %} {{ day_of_month }}
-{{ days_in_month }}
+{% comment %} {{ day_of_year }}
+{{ days_in_year }}
 {{ proportion_elapsed }}
 {{ proportion_remaining }} {% endcomment %}
 {%- comment -%}
