@@ -44,6 +44,10 @@
       <polygon points="145,210 155,210 285,395 15,395" fill="white"/>
       <!-- Top sand: fills from pinch upward, area-proportional to proportion_remaining -->
       <polygon points="{{ _top_sand_xl }},{{ _top_sand_y }} {{ _top_sand_xr }},{{ _top_sand_y }} 155,210 145,210" fill="black"/>
+      <!-- Falling sand stream: thin line from pinch to top of bottom sand, only while sand remains -->
+      {%- if _top_key > 0 %}
+      <rect x="148" y="210" width="3" height="{{ _top_h }}" fill="black"/>
+      {%- endif %}
       <!-- Bottom sand: fills from base upward, area-proportional to proportion_elapsed -->
       <polygon points="{{ _top_sand_xl }},{{ _bot_sand_y }} {{ _top_sand_xr }},{{ _bot_sand_y }} 285,395 15,395" fill="black"/>
       <!-- Glass outline (drawn on top so borders stay crisp) -->
