@@ -14,4 +14,4 @@ custom_fields:
 # override variables
 variables:
   trmnl: {}
-  testing_date_time: "2026-02-26T17:00:00" # Midday on 26th Feb 2026 (a Thursday)
+  testing_date_time: "2026-02-26T07:00:00" # Midday on 26th Feb 2026 (a Thursday)

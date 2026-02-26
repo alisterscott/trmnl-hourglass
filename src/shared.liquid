@@ -71,16 +71,39 @@
   {%- assign proportion_remaining = _seconds_remaining | divided_by: _total_seconds_in_year -%}
   {%- assign proportion_elapsed = 1.0 | minus: proportion_remaining -%}
 {% else %}
-  {%- assign label = "Today" -%}
-  {%- assign _hours = todays_date_time | date: "%H" | plus: 0 -%}
-  {%- assign _minutes = todays_date_time | date: "%M" | plus: 0 -%}
-  {%- assign _seconds = todays_date_time | date: "%S" | plus: 0 -%}
-  {%- assign _hours_s = _hours | times: 3600 -%}
-  {%- assign _minutes_s = _minutes | times: 60 -%}
-  {%- assign _seconds_elapsed = _hours_s | plus: _minutes_s | plus: _seconds -%}
-  {%- assign _seconds_remaining = 86400 | minus: _seconds_elapsed -%}
-  {%- assign proportion_remaining = _seconds_remaining | divided_by: 86400.0 -%}
-  {%- assign proportion_elapsed = 1.0 | minus: proportion_remaining -%}
+  {%- assign custom_day_start_time = trmnl.plugin_settings.custom_fields_values.day_start_time -%}
+  {%- assign custom_day_finish_time = trmnl.plugin_settings.custom_fields_values.day_finish_time -%}
+  {%- if custom_day_start_time and custom_day_finish_time and custom_day_start_time != '' and custom_day_finish_time != '' and custom_day_finish_time > custom_day_start_time -%}
+    {%- assign label = "Today (" | append: custom_day_start_time | append: " - " | append: custom_day_finish_time | append: ")" -%}
+    {%- assign _start_parts = custom_day_start_time | split: ":" -%}
+    {%- assign _start_h = _start_parts[0] | plus: 0 -%}
+    {%- assign _start_m = _start_parts[1] | plus: 0 -%}
+    {%- assign _start_s_of_day = _start_h | times: 3600 | plus: _start_m | times: 60 -%}
+    {%- assign _finish_parts = custom_day_finish_time | split: ":" -%}
+    {%- assign _finish_h = _finish_parts[0] | plus: 0 -%}
+    {%- assign _finish_m = _finish_parts[1] | plus: 0 -%}
+    {%- assign _finish_s_of_day = _finish_h | times: 3600 | plus: _finish_m | times: 60 -%}
+    {%- assign day_duration_seconds = _finish_s_of_day | minus: _start_s_of_day -%}
+    {%- assign _now_h = todays_date_time | date: "%H" | plus: 0 -%}
+    {%- assign _now_m = todays_date_time | date: "%M" | plus: 0 -%}
+    {%- assign _now_s = todays_date_time | date: "%S" | plus: 0 -%}
+    {%- assign _now_s_of_day = _now_h | times: 3600 | plus: _now_m | times: 60 | plus: _now_s -%}
+    {%- assign seconds_remaining = _finish_s_of_day | minus: _now_s_of_day -%}
+    {%- assign _day_duration_seconds_f = day_duration_seconds | plus: 0.0 -%}
+    {%- assign proportion_remaining = seconds_remaining | divided_by: _day_duration_seconds_f | at_least: 0.0 | at_most: 1.0 -%}
+    {%- assign proportion_elapsed = 1.0 | minus: proportion_remaining -%}
+  {%- else -%}
+    {%- assign label = "Today" -%}
+    {%- assign _hours = todays_date_time | date: "%H" | plus: 0 -%}
+    {%- assign _minutes = todays_date_time | date: "%M" | plus: 0 -%}
+    {%- assign _seconds = todays_date_time | date: "%S" | plus: 0 -%}
+    {%- assign _hours_s = _hours | times: 3600 -%}
+    {%- assign _minutes_s = _minutes | times: 60 -%}
+    {%- assign _seconds_elapsed = _hours_s | plus: _minutes_s | plus: _seconds -%}
+    {%- assign _seconds_remaining = 86400 | minus: _seconds_elapsed -%}
+    {%- assign proportion_remaining = _seconds_remaining | divided_by: 86400.0 -%}
+    {%- assign proportion_elapsed = 1.0 | minus: proportion_remaining -%}
+  {%- endif -%}
 {%- endif -%}
 {% comment %} {{ day_of_year }}
 {{ days_in_year }}
@@ -138,8 +161,8 @@
       <!-- Top sand: fills from pinch upward, area-proportional to proportion_remaining -->
       <polygon points="{{ _top_sand_xl }},{{ _top_sand_y }} {{ _top_sand_xr }},{{ _top_sand_y }} 155,210 145,210" fill="black"/>
       <!-- Falling sand stream: thin line from pinch to top of bottom sand, only while sand remains -->
-      {%- if _top_key > 0 %}
-      <rect x="148" y="210" width="3" height="{{ _top_h }}" fill="black"/>
+      {%- if _top_key > 0 and _top_key < 24 %}
+      <rect x="148" y="210" width="3" height="{{ _top_h }}" fill="black" class="fallingsand"/>
       {%- endif %}
       <!-- Bottom sand: fills from base upward, area-proportional to proportion_elapsed -->
       <polygon points="{{ _top_sand_xl }},{{ _bot_sand_y }} {{ _top_sand_xr }},{{ _bot_sand_y }} 285,395 15,395" fill="black"/>
