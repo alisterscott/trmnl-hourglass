@@ -1,65 +1,64 @@
 ---
 strategy: static
-no_screen_padding: "no"
-dark_mode: "no"
-static_data:
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: 
 polling_verb: get
-polling_url: ""
-polling_headers: ""
-polling_body: ""
+polling_url: ''
+polling_headers: ''
+polling_body: ''
 id: 249658
 custom_fields:
-  - keyname: period
-    field_type: select
-    options:
-      - Day
-      - Week
-      - Month
-      - Year
-    default: day
-    name: Period of Time
-    description: Current period of time to use for hourglass
-    conditional_validation:
-      - when: day
-        hidden:
-          - week_start_day
-      - when: week
-        required:
-          - week_start_day
-          - day_start_time
-          - day_finish_time
-      - when: month
-        hidden:
-          - week_start_day
-          - day_start_time
-          - day_finish_time
-      - when: year
-        hidden:
-          - week_start_day
-          - day_start_time
-          - day_finish_time
-  - keyname: week_start_day
-    field_type: select
-    options:
-      - Sunday: 0
-      - Monday: 1
-      - Tuesday: 2
-      - Wednesday: 3
-      - Thursday: 4
-      - Friday: 5
-      - Saturday: 6
-    default: 1
-    name: Start of the Week
-    description: Which day the week should start on (only relevant if Period of Time is set to Week)
-  - keyname: day_start_time
-    field_type: time
-    name: Day Start Time (optional)
-    description: Time when the day starts (only relevant if Period of Time is set to Day)
-    optional: true
-  - keyname: day_finish_time
-    field_type: time
-    name: Day Finish Time (optional)
-    description: Time when the day ends (only relevant if Period of Time is set to Day)
-    optional: true
+- keyname: period
+  field_type: select
+  options:
+  - Day
+  - Week
+  - Month
+  - Year
+  default: day
+  name: Period of Time
+  description: Current period of time to use for hourglass
+  conditional_validation:
+  - when: day
+    hidden:
+    - week_start_day
+  - when: week
+    hidden:
+    - day_start_time
+    - day_finish_time
+  - when: month
+    hidden:
+    - week_start_day
+    - day_start_time
+    - day_finish_time
+  - when: year
+    hidden:
+    - week_start_day
+    - day_start_time
+    - day_finish_time
+- keyname: week_start_day
+  field_type: select
+  options:
+  - Sunday: 0
+  - Monday: 1
+  - Tuesday: 2
+  - Wednesday: 3
+  - Thursday: 4
+  - Friday: 5
+  - Saturday: 6
+  default: 1
+  name: Start of the Week
+  description: Which day the week should start on (only relevant if Period of Time is set to Week)
+- keyname: day_start_time
+  field_type: time
+  name: Day Start Time (optional)
+  description: Time when the day starts (only relevant if Period of Time is set to Day)
+  optional: true
+- keyname: day_finish_time
+  field_type: time
+  name: Day Finish Time (optional)
+  description: Time when the day ends (only relevant if Period of Time is set to Day)
+  optional: true
 name: Hourglass
 refresh_interval: 30
