@@ -1,10 +1,15 @@
-{% assign day_start_of_week = 1 %}
+
 {% if testing_date_time and testing_date_time != '' %}
     {%- assign todays_date_time = testing_date_time -%}
 {% else %}
     {%- assign todays_date_time = trmnl.system.timestamp_utc | date: "%s" | plus: trmnl.user.utc_offset | date: "%Y-%m-%dT%H:%M:%S"  -%}
 {% endif %}
 {% if trmnl.plugin_settings.custom_fields_values.period == 'week' %}
+  {% if trmnl.plugin_settings.custom_fields_values.week_start_day and trmnl.plugin_settings.custom_fields_values.week_start_day != '' %}
+    {%- assign day_start_of_week = trmnl.plugin_settings.custom_fields_values.week_start_day | plus: 0 -%}
+  {% else %}
+    {%- assign day_start_of_week = 1 -%}
+  {% endif %}
   {%- assign label = "This Week" -%}
   {%- assign day_of_week = todays_date_time | date: "%u" | plus: 0 -%}
   {%- assign days_since_week_start = day_of_week | minus: day_start_of_week -%}
