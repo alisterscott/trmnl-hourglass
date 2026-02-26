@@ -1,0 +1,17 @@
+# TRMNLP configuration
+# {{ env.VARIABLE }} interpolation is available here
+---
+# auto-reload when files change (`watch: false` to disable)
+watch:
+  - .trmnlp.yml
+  - src
+
+time_zone: Australia/Brisbane
+
+# values of custom fields (defined in src/settings.yml)
+custom_fields: { "period": "week" }
+
+# override variables
+variables:
+  trmnl: {}
+  testing_date_time: "2026-02-26T12:00:00" # Thursday 12pm, so we are halfway through the week
