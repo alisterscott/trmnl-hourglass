@@ -60,5 +60,12 @@ custom_fields:
   name: Day Finish Time (optional)
   description: Time when the day ends (only relevant if Period of Time is set to Day)
   optional: true
+- keyname: label
+  field_type: string
+  maxlength: 20
+  name: Label (optional)
+  description: Optional label to display on the hourglass
+  help_text: Label will be based on Period of Time and current time if left blank
+  optional: true
 name: Hourglass
 refresh_interval: 30

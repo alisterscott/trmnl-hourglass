@@ -105,10 +105,9 @@
     {%- assign proportion_elapsed = 1.0 | minus: proportion_remaining -%}
   {%- endif -%}
 {%- endif -%}
-{% comment %} {{ day_of_year }}
-{{ days_in_year }}
-{{ proportion_elapsed }}
-{{ proportion_remaining }} {% endcomment %}
+{% if trmnl.plugin_settings.custom_fields_values.label and trmnl.plugin_settings.custom_fields_values.label != '' %}
+  {%- assign label = trmnl.plugin_settings.custom_fields_values.label -%}
+{% endif %}
 {%- comment -%}
   Both bulbs share the same geometry. The top sand height (h) from the pinch
   equals the empty gap height from the pinch downward into the bottom bulb.
