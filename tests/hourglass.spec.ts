@@ -2,8 +2,8 @@ import { test, expect } from "@playwright/test";
 import fs from "fs";
 import path from "path";
 
-test("can see all the views", async ({ page }) => {
-  const sourceFile = path.join(__dirname, "example.trmnlp.yml");
+test("can see 'Day' view across all the viewports", async ({ page }) => {
+  const sourceFile = path.join(__dirname, "day.trmnlp.yml");
   const destFile = path.join(__dirname, "..", ".trmnlp.yml");
 
   if (!fs.existsSync(sourceFile)) {
@@ -27,8 +27,14 @@ test("can see all the views", async ({ page }) => {
         await page.getByRole("link", { name: "Poll" }).click();
         const trmnlFrame = page.frameLocator("iframe");
         await expect
-          .soft(trmnlFrame.locator("div.view"))
-          .toContainText(route.replace("/", "").replace("_", " "));
+          .soft(trmnlFrame.locator('text[data-testing="label"]'))
+          .toHaveText("Today");
+        await expect
+          .soft(trmnlFrame.locator("svg.hourglass"))
+          .toHaveAttribute("data-elapsed", "0.5");
+        await expect
+          .soft(trmnlFrame.locator("svg.hourglass"))
+          .toHaveAttribute("data-remaining", "0.5");
       });
     }
   } finally {
