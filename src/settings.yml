@@ -16,6 +16,7 @@ custom_fields:
   - Week
   - Month
   - Year
+  - Custom Range
   default: day
   name: Period of Time
   description: Current period of time to use for hourglass
@@ -23,20 +24,36 @@ custom_fields:
   - when: day
     hidden:
     - week_start_day
+    - custom_range_start_date
+    - custom_range_end_date
   - when: week
     hidden:
     - day_start_time
     - day_finish_time
+    - custom_range_start_date
+    - custom_range_end_date
   - when: month
     hidden:
     - week_start_day
     - day_start_time
     - day_finish_time
+    - custom_range_start_date
+    - custom_range_end_date
   - when: year
     hidden:
     - week_start_day
     - day_start_time
     - day_finish_time
+    - custom_range_start_date
+    - custom_range_end_date
+  - when: custom_range
+    hidden:
+    - week_start_day
+    - day_start_time
+    - day_finish_time
+    required:
+    - custom_range_start_date
+    - custom_range_end_date
 - keyname: week_start_day
   field_type: select
   options:
@@ -60,6 +77,14 @@ custom_fields:
   name: Day Finish Time (optional)
   description: Time when the day ends (only relevant if Period of Time is set to Day)
   optional: true
+- keyname: custom_range_start_date
+  field_type: date
+  name: Custom Range Start Date
+  description: Start of the custom range (only relevant if Period of Time is set to Custom Range)
+- keyname: custom_range_end_date
+  field_type: date
+  name: Custom Range End Date
+  description: End of the custom range (only relevant if Period of Time is set to Custom Range)
 - keyname: label
   field_type: string
   maxlength: 20

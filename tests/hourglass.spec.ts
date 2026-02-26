@@ -431,3 +431,137 @@ test("can see 'Year' view across all the viewports for leap year (366 days)", as
     fs.writeFileSync(destFile, originalContent, "utf-8"); // Restore original content
   }
 });
+
+test("can see 'Custom' view across all the viewports", async ({ page }) => {
+  const sourceFile = path.join(__dirname, "custom_range.trmnlp.yml");
+  const destFile = path.join(__dirname, "..", ".trmnlp.yml");
+
+  if (!fs.existsSync(sourceFile)) {
+    throw new Error(`Source file not found: ${sourceFile}`);
+  }
+
+  if (!fs.existsSync(destFile)) {
+    throw new Error(`Destination file not found: ${destFile}`);
+  }
+
+  const originalContent = fs.readFileSync(destFile, "utf-8"); // Save original content to restore later
+
+  fs.copyFileSync(sourceFile, destFile);
+
+  try {
+    const routes = ["/quadrant", "/full", "/half_vertical", "/half_horizontal"];
+
+    for (const route of routes) {
+      await test.step(`Testing route: ${route}`, async () => {
+        await page.goto(route);
+        await page.getByRole("link", { name: "Poll" }).click();
+        const trmnlFrame = page.frameLocator("iframe");
+        await expect
+          .soft(trmnlFrame.locator('text[data-testing="label"]'))
+          .toHaveText("01 Feb 2026 - 03 Feb 2026");
+        await expect
+          .soft(trmnlFrame.locator("svg.hourglass"))
+          .toHaveAttribute("data-elapsed", "0.5");
+        await expect
+          .soft(trmnlFrame.locator("svg.hourglass"))
+          .toHaveAttribute("data-remaining", "0.5");
+        await expect.soft(trmnlFrame.locator("rect.fallingsand")).toBeVisible();
+      });
+    }
+  } finally {
+    fs.writeFileSync(destFile, originalContent, "utf-8"); // Restore original content
+  }
+});
+
+test("can see 'Custom' view pre-period across all the viewports", async ({
+  page,
+}) => {
+  const sourceFile = path.join(__dirname, "custom_range_pre_period.trmnlp.yml");
+  const destFile = path.join(__dirname, "..", ".trmnlp.yml");
+
+  if (!fs.existsSync(sourceFile)) {
+    throw new Error(`Source file not found: ${sourceFile}`);
+  }
+
+  if (!fs.existsSync(destFile)) {
+    throw new Error(`Destination file not found: ${destFile}`);
+  }
+
+  const originalContent = fs.readFileSync(destFile, "utf-8"); // Save original content to restore later
+
+  fs.copyFileSync(sourceFile, destFile);
+
+  try {
+    const routes = ["/quadrant", "/full", "/half_vertical", "/half_horizontal"];
+
+    for (const route of routes) {
+      await test.step(`Testing route: ${route}`, async () => {
+        await page.goto(route);
+        await page.getByRole("link", { name: "Poll" }).click();
+        const trmnlFrame = page.frameLocator("iframe");
+        await expect
+          .soft(trmnlFrame.locator('text[data-testing="label"]'))
+          .toHaveText("01 Feb 2026 - 03 Feb 2026");
+        await expect
+          .soft(trmnlFrame.locator("svg.hourglass"))
+          .toHaveAttribute("data-elapsed", "0.0");
+        await expect
+          .soft(trmnlFrame.locator("svg.hourglass"))
+          .toHaveAttribute("data-remaining", "1.0");
+        await expect
+          .soft(trmnlFrame.locator("rect.fallingsand"))
+          .not.toBeVisible();
+      });
+    }
+  } finally {
+    fs.writeFileSync(destFile, originalContent, "utf-8"); // Restore original content
+  }
+});
+
+test("can see 'Custom' view post-period across all the viewports", async ({
+  page,
+}) => {
+  const sourceFile = path.join(
+    __dirname,
+    "custom_range_post_period.trmnlp.yml",
+  );
+  const destFile = path.join(__dirname, "..", ".trmnlp.yml");
+
+  if (!fs.existsSync(sourceFile)) {
+    throw new Error(`Source file not found: ${sourceFile}`);
+  }
+
+  if (!fs.existsSync(destFile)) {
+    throw new Error(`Destination file not found: ${destFile}`);
+  }
+
+  const originalContent = fs.readFileSync(destFile, "utf-8"); // Save original content to restore later
+
+  fs.copyFileSync(sourceFile, destFile);
+
+  try {
+    const routes = ["/quadrant", "/full", "/half_vertical", "/half_horizontal"];
+
+    for (const route of routes) {
+      await test.step(`Testing route: ${route}`, async () => {
+        await page.goto(route);
+        await page.getByRole("link", { name: "Poll" }).click();
+        const trmnlFrame = page.frameLocator("iframe");
+        await expect
+          .soft(trmnlFrame.locator('text[data-testing="label"]'))
+          .toHaveText("01 Feb 2026 - 03 Feb 2026");
+        await expect
+          .soft(trmnlFrame.locator("svg.hourglass"))
+          .toHaveAttribute("data-elapsed", "1.0");
+        await expect
+          .soft(trmnlFrame.locator("svg.hourglass"))
+          .toHaveAttribute("data-remaining", "0.0");
+        await expect
+          .soft(trmnlFrame.locator("rect.fallingsand"))
+          .not.toBeVisible();
+      });
+    }
+  } finally {
+    fs.writeFileSync(destFile, originalContent, "utf-8"); // Restore original content
+  }
+});

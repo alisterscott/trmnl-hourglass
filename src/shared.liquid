@@ -70,6 +70,36 @@
   {%- assign _total_seconds_in_year = days_in_year | times: 86400.0 -%}
   {%- assign proportion_remaining = _seconds_remaining | divided_by: _total_seconds_in_year -%}
   {%- assign proportion_elapsed = 1.0 | minus: proportion_remaining -%}
+{% elsif trmnl.plugin_settings.custom_fields_values.period == 'custom_range' %}
+  {%- assign _cr_start = trmnl.plugin_settings.custom_fields_values.custom_range_start_date -%}
+  {%- assign _cr_end = trmnl.plugin_settings.custom_fields_values.custom_range_end_date -%}
+  {%- if _cr_start and _cr_end and _cr_start != '' and _cr_end != '' and _cr_end >= _cr_start -%}
+    {% assign _formatted_start = _cr_start | date: "%d %h %Y" %}
+    {% assign _formatted_end = _cr_end | date: "%d %h %Y" %}
+    {% if _cr_start == _cr_end %}
+      {%- assign label = _formatted_start -%}
+    {% else %}
+      {%- assign label = _formatted_start | append: " - " | append: _formatted_end -%}
+    {% endif %}
+    {%- assign _cr_start_s = _cr_start | date: "%s" | plus: 0 -%}
+    {%- assign _cr_end_s = _cr_end | date: "%s" | plus: 86400 -%}
+    {%- assign _cr_total_sf = _cr_end_s | minus: _cr_start_s | plus: 0.0 -%}
+    {%- assign _now_s = todays_date_time | date: "%s" | plus: 0 -%}
+    {%- assign _cr_remaining_s = _cr_end_s | minus: _now_s -%}
+    {%- assign proportion_remaining = _cr_remaining_s | divided_by: _cr_total_sf | at_least: 0.0 | at_most: 1.0 -%}
+    {%- assign proportion_elapsed = 1.0 | minus: proportion_remaining -%}
+  {%- else -%}
+    {%- assign label = "Today" -%}
+    {%- assign _hours = todays_date_time | date: "%H" | plus: 0 -%}
+    {%- assign _minutes = todays_date_time | date: "%M" | plus: 0 -%}
+    {%- assign _seconds = todays_date_time | date: "%S" | plus: 0 -%}
+    {%- assign _hours_s = _hours | times: 3600 -%}
+    {%- assign _minutes_s = _minutes | times: 60 -%}
+    {%- assign _seconds_elapsed = _hours_s | plus: _minutes_s | plus: _seconds -%}
+    {%- assign _seconds_remaining = 86400 | minus: _seconds_elapsed -%}
+    {%- assign proportion_remaining = _seconds_remaining | divided_by: 86400.0 -%}
+    {%- assign proportion_elapsed = 1.0 | minus: proportion_remaining -%}
+  {%- endif -%}
 {% else %}
   {%- assign custom_day_start_time = trmnl.plugin_settings.custom_fields_values.day_start_time -%}
   {%- assign custom_day_finish_time = trmnl.plugin_settings.custom_fields_values.day_finish_time -%}
