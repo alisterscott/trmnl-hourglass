@@ -10,13 +10,8 @@ time_zone: Australia/Brisbane
 
 # values of custom fields (defined in src/settings.yml)
 custom_fields:
-  {
-    "period": "custom_range",
-    "custom_range_start_date": "2026-02-01",
-    "custom_range_end_date": "2026-02-03",
-  }
-
+  { "period": "day", "day_start_time": "08:00", "day_finish_time": "16:00" }
 # override variables
 variables:
   trmnl: {}
-  testing_date_time: "2026-02-02T12:00:00" # Midday on 2nd Feb 2026, which is within the custom range
+  testing_date_time: "2026-02-26T17:00:00" # Midday on 26th Feb 2026 (a Thursday)

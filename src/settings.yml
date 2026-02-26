@@ -1,9 +1,96 @@
+---
 strategy: static
-no_screen_padding: "no"
-dark_mode: "no"
-static_data:
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: 
 polling_verb: get
-polling_url: ""
-polling_headers: ""
-name: My Plugin
-refresh_interval: 1440
+polling_url: ''
+polling_headers: ''
+polling_body: ''
+id: 249658
+custom_fields:
+- keyname: period
+  field_type: select
+  options:
+  - Day
+  - Week
+  - Month
+  - Year
+  - Custom Range
+  default: day
+  name: Period of Time
+  description: Current period of time to use for hourglass
+  conditional_validation:
+  - when: day
+    hidden:
+    - week_start_day
+    - custom_range_start_date
+    - custom_range_end_date
+  - when: week
+    hidden:
+    - day_start_time
+    - day_finish_time
+    - custom_range_start_date
+    - custom_range_end_date
+  - when: month
+    hidden:
+    - week_start_day
+    - day_start_time
+    - day_finish_time
+    - custom_range_start_date
+    - custom_range_end_date
+  - when: year
+    hidden:
+    - week_start_day
+    - day_start_time
+    - day_finish_time
+    - custom_range_start_date
+    - custom_range_end_date
+  - when: custom_range
+    hidden:
+    - week_start_day
+    - day_start_time
+    - day_finish_time
+    required:
+    - custom_range_start_date
+    - custom_range_end_date
+- keyname: week_start_day
+  field_type: select
+  options:
+  - Sunday: 0
+  - Monday: 1
+  - Tuesday: 2
+  - Wednesday: 3
+  - Thursday: 4
+  - Friday: 5
+  - Saturday: 6
+  default: 1
+  name: Start of the Week
+  description: Which day the week should start on (only relevant if Period of Time is set to Week)
+- keyname: day_start_time
+  field_type: time
+  name: Day Start Time (optional)
+  description: Time when the day starts (only relevant if Period of Time is set to Day)
+  optional: true
+- keyname: day_finish_time
+  field_type: time
+  name: Day Finish Time (optional)
+  description: Time when the day ends (only relevant if Period of Time is set to Day)
+  optional: true
+- keyname: custom_range_start_date
+  field_type: date
+  name: Custom Range Start Date
+  description: Start of the custom range (only relevant if Period of Time is set to Custom Range)
+- keyname: custom_range_end_date
+  field_type: date
+  name: Custom Range End Date
+  description: End of the custom range (only relevant if Period of Time is set to Custom Range)
+- keyname: label
+  field_type: string
+  maxlength: 20
+  name: Label (optional)
+  description: Optional label to display on the hourglass
+  help_text: Label will be based on Period of Time and current time if left blank
+  optional: true
+name: Hourglass
+refresh_interval: 30

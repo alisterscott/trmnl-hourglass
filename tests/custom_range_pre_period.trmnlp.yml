@@ -19,4 +19,4 @@ custom_fields:
 # override variables
 variables:
   trmnl: {}
-  testing_date_time: "2026-02-02T12:00:00" # Midday on 2nd Feb 2026, which is within the custom range
+  testing_date_time: "2026-01-02T12:00:00" # Midday on 2nd Jan 2026, which is before the custom range
