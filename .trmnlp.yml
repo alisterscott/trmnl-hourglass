@@ -14,6 +14,7 @@ custom_fields:
     "period": "custom_range",
     "custom_range_start_date": "2026-02-01",
     "custom_range_end_date": "2026-02-03",
+    "colour": "Grey",
   }
 
 # override variables
