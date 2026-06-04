@@ -193,20 +193,21 @@
       <!-- Glass fill (white background for upper and lower bulbs) -->
       <polygon points="15,25 285,25 155,210 145,210" fill="white"/>
       <polygon points="145,210 155,210 285,395 15,395" fill="white"/>
-      <!-- Top sand: fills from pinch upward, area-proportional to proportion_remaining -->
-      <polygon points="{{ _top_sand_xl }},{{ _top_sand_y }} {{ _top_sand_xr }},{{ _top_sand_y }} 155,210 145,210" fill="black"/>
-      <!-- Falling sand stream: thin line from pinch to top of bottom sand, only while sand remains -->
-      {%- if _top_key > 0 and _top_key < 24 %}
-      <rect x="148" y="210" width="3" height="{{ _top_h }}" fill="black" class="fallingsand"/>
-      {%- endif %}
-      <!-- Bottom sand: fills from base upward, area-proportional to proportion_elapsed -->
-      <polygon points="{{ _top_sand_xl }},{{ _bot_sand_y }} {{ _top_sand_xr }},{{ _bot_sand_y }} 285,395 15,395" fill="black"/>
-      <!-- Glass outline (drawn on top so borders stay crisp) - white base for visibility on dark backgrounds -->
+      <!-- Glass outline (drawn first so sand appears on top) - white base for visibility on dark backgrounds -->
       <polygon points="15,25 285,25 155,210 145,210" fill="none" stroke="white" stroke-width="6"/>
       <polygon points="145,210 155,210 285,395 15,395" fill="none" stroke="white" stroke-width="6"/>
       <!-- Glass outline - black on top for definition on light backgrounds -->
       <polygon points="15,25 285,25 155,210 145,210" fill="none" stroke="black" stroke-width="2"/>
       <polygon points="145,210 155,210 285,395 15,395" fill="none" stroke="black" stroke-width="2"/>
+      <!-- Top sand: fills from pinch upward, area-proportional to proportion_remaining -->
+      <polygon points="{{ _top_sand_xl }},{{ _top_sand_y }} {{ _top_sand_xr }},{{ _top_sand_y }} 155,210 145,210" fill="black"/>
+      <!-- Falling sand stream: thin line from pinch to top of bottom sand, only while sand remains -->
+      {%- if _top_key > 0 and _top_key < 24 %}
+      {%- assign _falling_height = _top_h | plus: 1 -%}
+      <rect x="149" y="210" width="2" height="{{ _falling_height }}" fill="black" class="fallingsand"/>
+      {%- endif %}
+      <!-- Bottom sand: fills from base upward, area-proportional to proportion_elapsed -->
+      <polygon points="{{ _top_sand_xl }},{{ _bot_sand_y }} {{ _top_sand_xr }},{{ _bot_sand_y }} 285,395 15,395" fill="black"/>
       <!-- Top cap -->
       <rect x="8" y="5" width="284" height="33" fill="black" class="hour-cap" rx="6"/>
       <text x="150" y="27" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold" fill="white" letter-spacing="2" data-testing="label">{{ label }}</text>
